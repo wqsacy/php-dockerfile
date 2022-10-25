@@ -1,7 +1,7 @@
 FROM php:7.4.32-fpm-alpine3.16
 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
-ENV YAC_VERSION=2.0.3
+ENV YAC_VERSION=2.3.1
 
 #Alpine packages
 RUN apk add --update git make gcc g++ imagemagick-dev \
@@ -39,10 +39,10 @@ RUN apk add --update git make gcc g++ imagemagick-dev \
 
 WORKDIR /usr/src/php/ext/
 
-RUN pecl install https://pecl.php.net/get/swoole-4.4.14.tgz \
+RUN pecl install https://pecl.php.net/get/swoole-4.8.9.tgz \
 	&& pecl install https://pecl.php.net/get/imagick-3.4.3.tgz \
-	&& pecl install https://pecl.php.net/get/redis-4.2.0.tgz \
-	&& pecl install https://pecl.php.net/get/yaf-3.0.9.tgz \
+	&& pecl install https://pecl.php.net/get/redis-5.3.7.tgz \
+	&& pecl install https://pecl.php.net/get/yaf-3.3.5.tgz \
     && set -xe && \
 	curl -LO https://github.com/laruence/yac/archive/yac-${YAC_VERSION}.tar.gz && \
 	tar xzf yac-${YAC_VERSION}.tar.gz && cd yac-yac-${YAC_VERSION} && \
