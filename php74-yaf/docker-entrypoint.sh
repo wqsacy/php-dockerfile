@@ -26,4 +26,8 @@ if [ ! -z $YAF_USE_SPL_AUTOLOAD ]; then
 	sed -i "s#^yaf\.use_spl_autoload=.*#yaf\.use_spl_autoload=${YAF_USE_SPL_AUTOLOAD}#g" /usr/local/etc/php/conf.d/yaf.ini
 fi
 
+chown -R www-data:www-data /opt/jammyfm/www
+
+chmod -R 777 /opt/jammyfm/www
+
 php-fpm

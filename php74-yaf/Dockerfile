@@ -34,6 +34,7 @@ RUN apk add --update git make gcc g++ imagemagick-dev \
 		&& docker-php-ext-install sysvmsg \
     	&& docker-php-ext-install sysvsem \
     	&& docker-php-ext-install sysvshm \
+    	&& docker-php-ext-install igbinary \
 		&& docker-php-ext-install bcmath
 
 
@@ -80,10 +81,7 @@ RUN cd /tmp/ \
 		&& echo "extension=redis.so" > /usr/local/etc/php/conf.d/phpredis.ini \
 		&& echo "extension=imagick.so" > /usr/local/etc/php/conf.d/imagick.ini \
 		&& echo "extension=swoole_orm.so" > /usr/local/etc/php/conf.d/z_swoole_orm.ini \
-		&& echo "extension=ycdatabase.so" > /usr/local/etc/php/conf.d/z_ycdatabase.ini \
-        && mkdir -p /opt/jammyfm/www  \
-        && chown -R www-data:www-data /opt/jammyfm/www \
-        && chmod -R 777 /opt/jammyfm/www
+		&& echo "extension=ycdatabase.so" > /usr/local/etc/php/conf.d/z_ycdatabase.ini
 
 
 WORKDIR /opt/jammyfm/www/
