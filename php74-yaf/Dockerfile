@@ -41,7 +41,7 @@ WORKDIR /usr/src/php/ext/
 RUN pecl install https://pecl.php.net/get/swoole-4.4.14.tgz \
 	&& pecl install https://pecl.php.net/get/imagick-3.4.3.tgz \
 	&& pecl install https://pecl.php.net/get/redis-4.2.0.tgz \
-	&& pecl install https://pecl.php.net/get/yaf-3.0.9.tgz
+	&& pecl install https://pecl.php.net/get/yaf-3.0.9.tgz \
     && set -xe && \
 	curl -LO https://github.com/laruence/yac/archive/yac-${YAC_VERSION}.tar.gz && \
 	tar xzf yac-${YAC_VERSION}.tar.gz && cd yac-yac-${YAC_VERSION} && \
