@@ -43,7 +43,7 @@ RUN pecl install https://pecl.php.net/get/swoole-4.8.9.tgz \
 	&& pecl install https://pecl.php.net/get/redis-5.3.7.tgz \
 	&& pecl install https://pecl.php.net/get/yaf-3.3.5.tgz \
 	&& pecl install igbinary \
-    && pecl install https://pecl.php.net/get/yac-2.3.1.tgz \
+    && pecl install https://pecl.php.net/get/yac-2.3.1.tgz
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
