@@ -62,7 +62,7 @@ RUN cd /usr/src/php/ext/ \
 		&& phpize \
 		&& chmod +x ./configure \
 		&& ./configure --with-php-config=/usr/local/bin/php-config && make && make install \
-		&& cd /tmp \
+		&& cd /usr/src/php/ext/ \
 		&& curl -fsSL 'https://jammyfm.oss-cn-qingdao.aliyuncs.com/php-extension/ext-orm.zip' -o ext-orm.zip \
 		&& unzip ext-orm.zip \
 		&& rm -rf ext-orm.zip \
