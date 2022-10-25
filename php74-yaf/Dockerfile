@@ -1,9 +1,9 @@
-FROM php:7.4.32-fpm-alpine3.16
+FROM php:7.4-fpm-alpine
 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 #Alpine packages
-RUN apk add --update git make gcc g++ imagemagick-dev \
+RUN apk add --update  libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev \
 	libc-dev \
 	autoconf \
 	icu-dev \
@@ -77,9 +77,10 @@ RUN cd /tmp/ \
 		&& echo "extension=redis.so" > /usr/local/etc/php/conf.d/phpredis.ini \
 		&& echo "extension=imagick.so" > /usr/local/etc/php/conf.d/imagick.ini \
 		&& echo "extension=igbinary.so" > /usr/local/etc/php/conf.d/igbinary.ini \
-		&& echo "extension=yac.so" > /usr/local/etc/php/conf.d/z_yac.ini \
-		&& echo "extension=swoole_orm.so" > /usr/local/etc/php/conf.d/z_swoole_orm.ini \
-		&& echo "extension=ycdatabase.so" > /usr/local/etc/php/conf.d/z_ycdatabase.ini \
+		&& echo "extension=yac.so" > /usr/local/etc/php/conf.d/z2_yac.ini \
+		&& echo "extension=yaf.so" > /usr/local/etc/php/conf.d/z2_yaf.ini \
+		&& echo "extension=swoole_orm.so" > /usr/local/etc/php/conf.d/z3_swoole_orm.ini \
+		&& echo "extension=ycdatabase.so" > /usr/local/etc/php/conf.d/z1_ycdatabase.ini \
         && mkdir -p /opt/jammyfm/logs/ \
         && chmod -R 777 /opt/jammyfm/logs/
 
