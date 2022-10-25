@@ -89,4 +89,4 @@ WORKDIR /opt/jammyfm/www/
 
 EXPOSE 9000
 
-CMD ["/usr/local/bin/docker-entrypoint.sh","/bin/bash"]
+CMD ["/usr/local/bin/docker-entrypoint.sh","run"]
