@@ -33,6 +33,13 @@ RUN apk add --update  libffi-dev openssl-dev libtool util-linux git make gcc g++
 		&& docker-php-ext-install sysvmsg \
     	&& docker-php-ext-install sysvsem \
     	&& docker-php-ext-install sysvshm \
+    	&& docker-php-ext-install calendar \
+    	&& docker-php-ext-install exif \
+    	&& docker-php-ext-install gettext \
+    	&& docker-php-ext-install shmop \
+    	&& docker-php-ext-install xsl \
+    	&& docker-php-ext-install intl \
+    	&& docker-php-ext-install wddx \
 		&& docker-php-ext-install bcmath
 
 

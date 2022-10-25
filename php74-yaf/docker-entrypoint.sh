@@ -28,6 +28,6 @@ fi
 
 chown -R www-data:www-data /opt/jammyfm/www
 
-chmod -R 777 /opt/jammyfm/www
+#chmod -R 777 /opt/jammyfm/www
 
 php-fpm
