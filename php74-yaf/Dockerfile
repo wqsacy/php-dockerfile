@@ -21,8 +21,8 @@ RUN apk add --update git make gcc g++ imagemagick-dev \
 	binutils \
 	imagemagick-dev \
 	&& rm -rf /var/cache/apk/* \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-        && docker-php-ext-install gd \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+        && docker-php-ext-install -j$(nproc) gd \
         && docker-php-ext-install mysqli \
         && docker-php-ext-install bz2 \
         && docker-php-ext-install zip \
