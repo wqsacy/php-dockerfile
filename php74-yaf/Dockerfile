@@ -55,7 +55,7 @@ ADD conf/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
 #ycdatabase + swoole_orm
 RUN cd /tmp/ \
-		&& curl -fsSL 'https://jammyfm.oss-cn-qingdao.aliyuncs.com/php-expand/ycdatabase.zip' -o ycdatabase.zip \
+		&& curl -fsSL 'https://jammyfm.oss-cn-qingdao.aliyuncs.com/php-extension/ycdatabase.zip' -o ycdatabase.zip \
 		&& unzip ycdatabase.zip \
 		&& rm -rf ycdatabase.zip \
 		&& cd ycdatabase/ycdatabase_extension \
@@ -63,7 +63,7 @@ RUN cd /tmp/ \
 		&& chmod +x ./configure \
 		&& ./configure --with-php-config=/usr/local/bin/php-config && make && make install \
 		&& cd /tmp && rm -rf ycdatabase \
-		&& curl -fsSL 'https://jammyfm.oss-cn-qingdao.aliyuncs.com/php-expand/ext-orm.zip' -o ext-orm.zip \
+		&& curl -fsSL 'https://jammyfm.oss-cn-qingdao.aliyuncs.com/php-extension/ext-orm.zip' -o ext-orm.zip \
 		&& unzip ext-orm.zip \
 		&& rm -rf ext-orm.zip \
 		&& cd ext-orm \
