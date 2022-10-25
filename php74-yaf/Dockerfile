@@ -74,7 +74,7 @@ RUN cd /tmp/ \
 		&& chmod +x ./configure \
 		&& ./configure --with-php-config=/usr/local/bin/php-config && make && make install \
 		&& cd /tmp && rm -rf ext-orm \
-        && rm /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+        && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 		&& chmod +x /usr/local/bin/docker-entrypoint.sh \
 		&& echo "extension=swoole.so" > /usr/local/etc/php/conf.d/swoole.ini \
 		&& echo "extension=redis.so" > /usr/local/etc/php/conf.d/phpredis.ini \
