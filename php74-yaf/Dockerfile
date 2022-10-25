@@ -14,6 +14,7 @@ RUN apk add --update git make gcc g++ imagemagick-dev \
 	libpng-dev \
 	libmcrypt-dev \
 	libpcre32 \
+	libzip-devel \
 	bzip2 \
 	libbz2 \
 	bzip2-dev \
