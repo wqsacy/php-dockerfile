@@ -82,8 +82,8 @@ RUN cd /tmp/ \
 		&& echo "extension=swoole_orm.so" > /usr/local/etc/php/conf.d/z_swoole_orm.ini \
 		&& echo "extension=ycdatabase.so" > /usr/local/etc/php/conf.d/z_ycdatabase.ini \
         && mkdir -p /opt/jammyfm/www  \
-        && chown -R www-data:www-data /opt/jammyfm/www/* \
-        && chmod -R 777 /opt/jammyfm/www/*
+        && chown -R www-data:www-data /opt/jammyfm/www \
+        && chmod -R 777 /opt/jammyfm/www
 
 
 WORKDIR /opt/jammyfm/www/
