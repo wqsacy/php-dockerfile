@@ -14,6 +14,7 @@ RUN apk add --update  libffi-dev openssl-dev libtool util-linux git make gcc g++
 	libzip-dev \
 	bzip2 \
 	libbz2 \
+	libxslt \
 	bzip2-dev \
 	cyrus-sasl-dev \
 	binutils \
