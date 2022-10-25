@@ -14,7 +14,6 @@ RUN apk add --update  libffi-dev openssl-dev libtool util-linux git make gcc g++
 	libzip-dev \
 	bzip2 \
 	libbz2 \
-	libxslt \
 	bzip2-dev \
 	cyrus-sasl-dev \
 	binutils \
@@ -37,7 +36,6 @@ RUN apk add --update  libffi-dev openssl-dev libtool util-linux git make gcc g++
     	&& docker-php-ext-install exif \
     	&& docker-php-ext-install gettext \
     	&& docker-php-ext-install shmop \
-    	&& docker-php-ext-install xsl \
     	&& docker-php-ext-install intl \
     	&& docker-php-ext-install wddx \
 		&& docker-php-ext-install bcmath
