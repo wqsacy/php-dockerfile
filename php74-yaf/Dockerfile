@@ -1,7 +1,5 @@
 FROM php:7.4-fpm-alpine
 
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
-
 #Alpine packages
 RUN apk add --update  libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev \
 	libc-dev \
