@@ -62,7 +62,7 @@ RUN cd /tmp/ \
 		&& phpize \
 		&& chmod +x ./configure \
 		&& ./configure --with-php-config=/usr/local/bin/php-config && make && make install \
-		&& cd /tmp && rm -rf ycdatabase \
+		&& cd /tmp \
 		&& curl -fsSL 'https://jammyfm.oss-cn-qingdao.aliyuncs.com/php-extension/ext-orm.zip' -o ext-orm.zip \
 		&& unzip ext-orm.zip \
 		&& rm -rf ext-orm.zip \
@@ -70,7 +70,7 @@ RUN cd /tmp/ \
 		&& phpize \
 		&& chmod +x ./configure \
 		&& ./configure --with-php-config=/usr/local/bin/php-config && make && make install \
-		&& cd /tmp && rm -rf ext-orm \
+		&& cd /tmp \
         && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 		&& chmod +x /usr/local/bin/docker-entrypoint.sh \
 		&& echo "extension=swoole.so" > /usr/local/etc/php/conf.d/swoole.ini \
