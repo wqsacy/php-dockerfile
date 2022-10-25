@@ -79,7 +79,9 @@ RUN cd /tmp/ \
 		&& echo "extension=igbinary.so" > /usr/local/etc/php/conf.d/igbinary.ini \
 		&& echo "extension=yac.so" > /usr/local/etc/php/conf.d/z_yac.ini \
 		&& echo "extension=swoole_orm.so" > /usr/local/etc/php/conf.d/z_swoole_orm.ini \
-		&& echo "extension=ycdatabase.so" > /usr/local/etc/php/conf.d/z_ycdatabase.ini
+		&& echo "extension=ycdatabase.so" > /usr/local/etc/php/conf.d/z_ycdatabase.ini \
+        && mkdir -p /opt/jammyfm/logs/ \
+        && chmod -R 777 /opt/jammyfm/logs/
 
 
 WORKDIR /opt/jammyfm/www/
