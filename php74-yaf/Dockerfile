@@ -34,7 +34,6 @@ RUN apk add --update git make gcc g++ imagemagick-dev \
 		&& docker-php-ext-install sysvmsg \
     	&& docker-php-ext-install sysvsem \
     	&& docker-php-ext-install sysvshm \
-    	&& docker-php-ext-install igbinary \
 		&& docker-php-ext-install bcmath
 
 
@@ -44,6 +43,7 @@ RUN pecl install https://pecl.php.net/get/swoole-4.8.9.tgz \
 	&& pecl install https://pecl.php.net/get/imagick-3.4.3.tgz \
 	&& pecl install https://pecl.php.net/get/redis-5.3.7.tgz \
 	&& pecl install https://pecl.php.net/get/yaf-3.3.5.tgz \
+	&& pecl install igbinary \
     && set -xe && \
 	curl -LO https://github.com/laruence/yac/archive/yac-${YAC_VERSION}.tar.gz && \
 	tar xzf yac-${YAC_VERSION}.tar.gz && cd yac-yac-${YAC_VERSION} && \
@@ -80,6 +80,7 @@ RUN cd /tmp/ \
 		&& echo "extension=swoole.so" > /usr/local/etc/php/conf.d/swoole.ini \
 		&& echo "extension=redis.so" > /usr/local/etc/php/conf.d/phpredis.ini \
 		&& echo "extension=imagick.so" > /usr/local/etc/php/conf.d/imagick.ini \
+		&& echo "extension=igbinary.so" > /usr/local/etc/php/conf.d/igbinary.ini \
 		&& echo "extension=swoole_orm.so" > /usr/local/etc/php/conf.d/z_swoole_orm.ini \
 		&& echo "extension=ycdatabase.so" > /usr/local/etc/php/conf.d/z_ycdatabase.ini
 
