@@ -10,7 +10,8 @@ RUN apt-get update \
 	libmcrypt-dev \
 	libfreetype6-dev \
 	bzip2 \
-	binutils \
+    libbz2-dev \
+    binutils \
 	gettext \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd \
