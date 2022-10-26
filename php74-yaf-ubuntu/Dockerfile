@@ -13,6 +13,7 @@ RUN apt-get update \
     libbz2-dev \
     binutils \
     libicu-dev \
+    libmagick++-dev \
 	gettext \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd \
