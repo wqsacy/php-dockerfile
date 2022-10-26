@@ -5,15 +5,9 @@ RUN apt-get update \
     && apt-get install -y  libffi-dev openssl libtool util-linux git make gcc g++ imagemagick \
 	libc-dev \
 	autoconf \
-	icu \
-	freetype \
-	libjpeg-turbo-dev \
 	libpng-dev \
 	libmcrypt-dev \
-	libpcre32 \
-	libzip \
 	bzip2 \
-	cyrus-sasl \
 	binutils \
 	gettext \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
