@@ -1,22 +1,7 @@
 FROM php:7.4-fpm-alpine
 
 #Alpine packages
-RUN apk add --no-cache make build-base \
-    && wget https://ftp.gnu.org/gnu/gcc/gcc-10.2.0/gcc-10.2.0.tar.gz \
-    && tar -xzvf gcc-10.2.0.tar.gz \
-    && cd gcc-10.2.0 \
-    && ./contrib/download_prerequisites \
-    && cd .. \
-    && mkdir objdir \
-    && cd objdir \
-    && ./../gcc-10.2.0/configure --prefix=$HOME/GCC-10.2.0 --disable-multilib \
-    && make all-gcc \
-    && make all-target-libgcc \
-    && make install-gcc \
-    && make install-target-libgcc
-
-
-RUN apk add libffi-dev openssl-dev libtool util-linux git make g++ imagemagick-dev \
+RUN apk add --update  libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev \
 	libc-dev \
 	autoconf \
 	icu-dev \
