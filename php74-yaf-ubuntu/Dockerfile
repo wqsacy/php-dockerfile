@@ -68,6 +68,7 @@ RUN cd /usr/src/php/ext/ \
 		&& phpize \
 		&& chmod +x ./configure \
 		&& ./configure --with-php-config=/usr/local/bin/php-config && make && make install \
+        && mv /etc/localtime /etc/localtime.bak\
         && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 		&& chmod +x /usr/local/bin/docker-entrypoint.sh \
 		&& echo "extension=swoole.so" > /usr/local/etc/php/conf.d/swoole.ini \
