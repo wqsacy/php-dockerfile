@@ -6,6 +6,7 @@ RUN apt-get update \
 	libc-dev \
 	autoconf \
 	libpng-dev \
+	libjpeg-dev \
 	libmcrypt-dev \
 	bzip2 \
 	binutils \
