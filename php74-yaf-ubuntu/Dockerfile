@@ -8,6 +8,7 @@ RUN apt-get update \
 	libpng-dev \
 	libjpeg-dev \
 	libmcrypt-dev \
+	freetype2 \
 	bzip2 \
 	binutils \
 	gettext \
