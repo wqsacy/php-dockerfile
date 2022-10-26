@@ -2,24 +2,20 @@ FROM php:7.4.32-fpm
 
 #Alpine packages
 RUN apt-get update \
-    && apt-get install -y  libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev \
+    && apt-get install -y  libffi-dev openssl libtool util-linux git make gcc g++ imagemagick \
 	libc-dev \
 	autoconf \
-	icu-dev \
-	openldap-dev \
-	freetype-dev \
+	icu \
+	freetype \
 	libjpeg-turbo-dev \
 	libpng-dev \
 	libmcrypt-dev \
 	libpcre32 \
-	libzip-dev \
+	libzip \
 	bzip2 \
-	libbz2 \
-	bzip2-dev \
-	cyrus-sasl-dev \
+	cyrus-sasl \
 	binutils \
-	gettext-dev \
-	imagemagick-dev \
+	gettext \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd \
         && docker-php-ext-install mysqli \
