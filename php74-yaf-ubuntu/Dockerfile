@@ -16,33 +16,32 @@ RUN apt-get update \
     libicu-dev \
     libmagick++-dev \
 	gettext \
+	bash_completion \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-        && docker-php-ext-install -j$(nproc) gd \
-        && docker-php-ext-install mysqli \
-        && docker-php-ext-install bz2 \
-        && docker-php-ext-install pdo \
-        && docker-php-ext-install pdo_mysql \
-        && docker-php-ext-install opcache \
-		&& docker-php-ext-install sockets \
-		&& docker-php-ext-install sysvmsg \
-    	&& docker-php-ext-install sysvsem \
-    	&& docker-php-ext-install sysvshm \
-    	&& docker-php-ext-install calendar \
-    	&& docker-php-ext-install exif \
-    	&& docker-php-ext-install gettext \
-    	&& docker-php-ext-install shmop \
-    	&& docker-php-ext-install intl \
-		&& docker-php-ext-install bcmath
-
-
-WORKDIR /usr/src/php/ext/
-
-RUN pecl install https://pecl.php.net/get/swoole-4.8.9.tgz \
-	&& pecl install https://pecl.php.net/get/imagick-3.4.3.tgz \
-	&& pecl install https://pecl.php.net/get/redis-5.3.7.tgz \
-	&& pecl install https://pecl.php.net/get/yaf-3.3.5.tgz \
-	&& pecl install igbinary \
-    && pecl install https://pecl.php.net/get/yac-2.3.1.tgz
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install mysqli \
+    && docker-php-ext-install bz2 \
+    && docker-php-ext-install pdo \
+    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install opcache \
+    && docker-php-ext-install sockets \
+    && docker-php-ext-install sysvmsg \
+    && docker-php-ext-install sysvsem \
+    && docker-php-ext-install sysvshm \
+    && docker-php-ext-install calendar \
+    && docker-php-ext-install exif \
+    && docker-php-ext-install gettext \
+    && docker-php-ext-install shmop \
+    && docker-php-ext-install intl \
+    && docker-php-ext-install bcmath \
+    && cd /usr/src/php/ext/ \
+    && pecl install https://pecl.php.net/get/swoole-4.8.9.tgz \
+    && pecl install https://pecl.php.net/get/imagick-3.4.3.tgz \
+    && pecl install https://pecl.php.net/get/redis-5.3.7.tgz \
+    && pecl install https://pecl.php.net/get/yaf-3.3.5.tgz \
+    && pecl install igbinary \
+    && pecl install https://pecl.php.net/get/yac-2.3.1.tgz \
+    && source /etc/profile.d/bash_completion.sh
 
 
 ADD conf/yaf.ini /usr/local/etc/php/conf.d/yaf.ini
