@@ -2,7 +2,8 @@ FROM php:7.4.32-fpm
 
 #Alpine packages
 RUN apt-get update \
-    && apt-get install -y  libffi-dev openssl libtool util-linux git make gcc g++ imagemagick \
+    && apt-get remove -y vim-common \
+    && apt-get install -y  libffi-dev openssl libtool util-linux git make gcc g++ imagemagick vim \
 	zip \
 	libc-dev \
 	autoconf \
