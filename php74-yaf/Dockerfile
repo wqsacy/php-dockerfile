@@ -87,6 +87,8 @@ RUN cd /usr/src/php/ext/ \
         && mkdir -p /opt/jammyfm/logs/ \
         && chmod -R 777 /opt/jammyfm/logs/
 
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 WORKDIR /opt/jammyfm/www/
 
