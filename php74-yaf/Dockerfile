@@ -1,7 +1,7 @@
 FROM php:7.4-fpm-alpine3.13
 
 #Alpine packages
-RUN apk add --update  libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev \
+RUN apk add --update musl-dev  libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev libgcc \
 	libc-dev \
 	autoconf \
 	icu-dev \
