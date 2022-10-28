@@ -1,10 +1,10 @@
 FROM php:7.4-fpm-alpine3.13
 
 RUN apk --no-cache add ca-certificates bash wget && \
-    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub && \
-    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.25-r0/glibc-2.25-r0.apk && \
-    apk add glibc-2.25-r0.apk && \
-    rm glibc-2.25-r0.apk
+    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r0/glibc-2.35-r0.apk && \
+    apk add glibc-2.35-r0.apk && \
+    rm glibc-2.35-r0.apk
 
 #Alpine packages
 RUN apk add --update musl-dev  libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev libgcc \
