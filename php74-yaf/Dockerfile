@@ -7,7 +7,7 @@ RUN apk --no-cache add ca-certificates bash wget && \
     rm glibc-2.35-r0.apk
 
 #Alpine packages
-RUN apk add --update musl-dev musl-gcc  libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev libgcc \
+RUN apk add --update musl-dev   libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev libgcc \
 	libc-dev \
 	autoconf \
 	icu-dev \
