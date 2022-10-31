@@ -7,7 +7,7 @@ RUN apk --no-cache add ca-certificates bash wget && \
     rm glibc-2.35-r0.apk
 
 #Alpine packages
-RUN apk add --update musl-dev  libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev libgcc \
+RUN apk add --update musl-dev musl-gcc  libffi-dev openssl-dev libtool util-linux git make gcc g++ imagemagick-dev libgcc \
 	libc-dev \
 	autoconf \
 	icu-dev \
@@ -71,7 +71,7 @@ RUN cd /usr/src/php/ext/ \
 		&& cd ycdatabase/ycdatabase_extension \
 		&& phpize \
 		&& chmod +x ./configure \
-		&& ./configure --with-php-config=/usr/local/bin/php-config && make && make install \
+		&& ./configure -static --with-php-config=/usr/local/bin/php-config && make && make install \
 		&& cd /usr/src/php/ext/ \
 		&& curl -fsSL 'https://jammyfm.oss-cn-qingdao.aliyuncs.com/php-extension/ext-orm.zip' -o ext-orm.zip \
 		&& unzip ext-orm.zip \
@@ -79,7 +79,7 @@ RUN cd /usr/src/php/ext/ \
 		&& cd ext-orm \
 		&& phpize \
 		&& chmod +x ./configure \
-		&& ./configure --with-php-config=/usr/local/bin/php-config && make && make install \
+		&& ./configure -static --with-php-config=/usr/local/bin/php-config && make && make install \
         && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 		&& chmod +x /usr/local/bin/docker-entrypoint.sh \
 		&& echo "extension=swoole.so" > /usr/local/etc/php/conf.d/swoole.ini \
