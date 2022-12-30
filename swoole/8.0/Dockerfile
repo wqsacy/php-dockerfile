@@ -1,6 +1,6 @@
 
 FROM hyperf/hyperf:8.0-alpine-v3.12-base
-LABEL maintainer="Jam php74 prod" version="1.0" license="MIT" app.name="Hyperf"
+LABEL maintainer="Jam php80 prod" version="1.0" license="MIT" app.name="Hyperf"
 
 ##
 # ---------- env settings ----------
@@ -51,5 +51,5 @@ COPY . /opt/www
 
 EXPOSE 9000
 
-#ENTRYPOINT ["php", "/opt/www/bin/hyperf.php", "start"]
+ENTRYPOINT ["php", "/opt/www/bin/hyperf.php", "start"]
 

@@ -1,5 +1,5 @@
 FROM hyperf/hyperf:7.4-alpine-v3.14-swoole
-LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT"
+LABEL maintainer="php74" version="1.0" license="MIT"
 
 
 

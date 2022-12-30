@@ -4,7 +4,7 @@ name: build base docker image
 on:
   push:
     tags:
-      - 'php8-prod*'
+      - 'php74-swoole*'
   # Allows you to run this workflow manually from the Actions tab
   # 可以手动触发
   workflow_dispatch:
@@ -46,12 +46,13 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./swoole/7.4/
+          file: ./swoole/7.4/Dockerfile
           # 所需要的体系结构，可以在 Available platforms 步骤中获取所有的可用架构
           platforms: linux/amd64
           # 镜像推送时间
           push: ${{ github.event_name != 'pull_request' }}
           # 给清单打上多个标签
           tags: |
-            wqsacy/php81-apline:prod
+            wqsacy/php74_swoole:prod
+            wqsacy/php74_swoole:latest
