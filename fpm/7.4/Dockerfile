@@ -1,12 +1,7 @@
-ARG ALPINE_VERSION
-
-ENV ALPINE_VERSION=${ALPINE_VERSION:-"3.15"}
-
-FROM alpine:$ALPINE_VERSION
+FROM alpine:3.15
 
 LABEL maintainer="wqsacy Developers" version="1.0" license="MIT"
 
-ARG ALPINE_VERSION
 
 ARG COMPOSER_VERSION
 
@@ -20,8 +15,8 @@ ADD https://alpine-apk-repository.knowyourself.cc/php-alpine.rsa.pub /etc/apk/ke
 ##
 RUN set -ex \
     # change apk source repo
-    && echo "https://alpine-apk-repository.knowyourself.cc/v$ALPINE_VERSION/php-7.4" >> /etc/apk/repositories \
-    && echo "@php https://alpine-apk-repository.knowyourself.cc/v$ALPINE_VERSION/php-7.4" >> /etc/apk/repositories \
+    && echo "https://alpine-apk-repository.knowyourself.cc/v3.15/php-7.4" >> /etc/apk/repositories \
+    && echo "@php https://alpine-apk-repository.knowyourself.cc/v3.15/php-7.4" >> /etc/apk/repositories \
     && apk update \
     && apk add --no-cache \
     # Install base packages ('ca-certificates' will install 'nghttp2-libs')
