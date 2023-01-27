@@ -1,111 +1,31 @@
-ARG ALPINE_VERSION=3.13
-FROM php:7.4-fpm-alpine${ALPINE_VERSION}
-ARG PHP_EXTS="pdo_mysql pdo_pgsql intl bcmath opcache mongodb ssh2 redis gd"
-ARG APK_ADD
-ARG PHP_LIBS
-ENV MUSL_LOCPATH /usr/local/share/i18n/locales/musl
-# Fix ICONV library implementation
-# @see https://github.com/docker-library/php/issues/240
-ENV LD_PRELOAD /usr/local/lib/preloadable_libiconv.so
-# When the container is run as an unknown user (e.g 1000), COMPOSER_HOME defaults to /.composer
-ENV COMPOSER_HOME /.composer
-ENV PATH $COMPOSER_HOME/vendor/bin:$PATH
-COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
-# Install basic packages & PHP extensions
-RUN \
-    BUILD_DEPS="autoconf coreutils gcc libc-dev make patch"; \
-    apk add --update bash git vim ${APK_ADD} && \
-    \
-    # Keep a list of installed packages for after-cleanup restore
-    export installed=$(apk info | xargs); \
-    \
-    # Install temporary build dependencies
-    apk add --no-cache --virtual build-deps ${BUILD_DEPS} && \
-    \
-    install-php-extensions ${PHP_EXTS} && \
-    \
-    # Install support for locales
-    # @see https://github.com/gliderlabs/docker-alpine/issues/144
-    apk add --no-cache --virtual .locale-run-deps libintl && \
-    apk add --no-cache --virtual .locale-build-deps cmake make musl-dev gcc gettext-dev && \
-    cd /tmp && curl --output musl-locales-master.zip https://codeload.github.com/rilian-la-te/musl-locales/zip/master && \
-    unzip musl-locales-master.zip && cd musl-locales-master; \
-    cmake . && make && make install; \
-    cd .. && rm -rf /tmp/musl-locales-master*; \
-    \
-    # Fix ICONV library implementation
-    # @see https://github.com/docker-library/php/issues/240
-    # (could possibly be replaced by:
-    #   apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted; \
-    # @see https://github.com/wallabag/docker/pull/158/files
-    # )
-    apk add --no-cache --virtual .iconv-build-deps file libtool && \
-    curl -sSL http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz | tar -xz -C . && \
-    cd libiconv-1.14 && \
-    ./configure --prefix=/usr/local && \
-    curl -sSL https://raw.githubusercontent.com/mxe/mxe/7e231efd245996b886b501dad780761205ecf376/src/libiconv-1-fixes.patch | patch -p1 -u  && \
-    make && make install && \
-    libtool --finish /usr/local/lib; \
-    cd .. && \
-    rm -rf libiconv-1.14; \
-    \
-    # Use VIM for VI (instead of the poorly implemented BusyBox equivalent)
-    rm /usr/bin/vi && ln -s /usr/bin/vim /usr/bin/vi && \
-    \
-    # Install composer
-    #  - Download composer-setup.php & check for file integrity
-    #  - Run composer installation script then remove it
-    curl -sSL https://getcomposer.org/installer -o composer-setup.php; \
-    ACTUAL_SIG=`sha384sum composer-setup.php | awk '{ printf "%s",$1; }'`; \
-    EXPECTED_SIG=`curl -s https://composer.github.io/installer.sig | tr -d "\n"`; \
-    [ "$ACTUAL_SIG" = "$EXPECTED_SIG" ] || echo "[composer] Error: signatures does not match!"; \
-    php composer-setup.php --filename=composer --install-dir=/usr/bin && \
-    rm composer-setup.php && \
-    \
-    # Ensure the COMPOSER_HOME directory is accessible to all users
-    mkdir $COMPOSER_HOME && chmod 0777 $COMPOSER_HOME; \
-    \
-    # Install yamltools standalone (ensure BC with any php version)
-    curl -Lo /usr/local/bin/yamltools https://github.com/yannoff/yamltools/releases/latest/download/yamltools && chmod +x /usr/local/bin/yamltools && \
-    # Install offenbach
-    cd /tmp && git clone https://github.com/yannoff/offenbach.git && cd offenbach && \
-    # Use the latest release version instead of potentially unstable master
-    offenbach_version=$(git describe --tags --abbrev=0) && git checkout ${offenbach_version} && \
-    ./configure --bindir /usr/local/bin bin/offenbach && make && make install && \
-    cd /tmp && rm -rf offenbach && \
-    \
-    # Install on-demand global PHP packages, if appropriate
-    if [ -n "${PHP_LIBS}" ]; \
-    then \
-        composer global require ${PHP_LIBS}; \
-    fi; \
-    # Cleanup:
-    # - remove build dependencies
-    # - restore installed packages (avoid collision with build deps)
-    apk del --no-cache build-deps .locale-build-deps .iconv-build-deps; \
-    \
-    # Restore base installed packages, prevents accidental removal by build-deps cleanup
-    # @see https://github.com/yannoff/docker-php-fpm/issues/28
-    apk add --no-cache ${installed}; \
-    # php config
-    cd /usr/local/etc/php/ && \
-    cp php.ini-development php.ini && \
-    { \
-        echo "upload_max_filesize=100M"; \
-        echo "post_max_size=108M"; \
-        echo "memory_limit=1024M"; \
-        echo "date.timezone=Asia/Shanghai"; \
-    } >> ./conf.d/normal.ini && \
-    # - config timezone
-    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    echo "Asia/Shanghai" >> /etc/timezone
+ARG ALPINE_VERSION
 
-    #5.ADD-SUPERVISOR
-    #RUN apk add supervisor \
-    #&& rm -rf /var/cache/apk/*
+FROM hyperf/hyperf:7.4-alpine-v${ALPINE_VERSION}-base
 
-    # Define mountable directories.
-    #VOLUME ["/etc/supervisor/conf.d", "/var/log/supervisor/"]
-    #COPY ./supervisor/conf.d/ /etc/supervisor/conf.d/
+LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT"
 
+ARG COMPOSER_VERSION
 
+ENV COMPOSER_VERSION=${COMPOSER_VERSION:-"2.0.2"}
+
+##
+# ---------- env settings ----------
+##
+ENV PHPIZE_DEPS="autoconf dpkg-dev dpkg file g++ gcc libc-dev make php7-dev php7-pear pkgconf re2c pcre-dev pcre2-dev zlib-dev libtool automake"
+
+# update
+RUN set -ex \
+    && apk update \
+    && apk add --no-cache libstdc++ openssl git bash \
+    && apk add --no-cache $PHPIZE_DEPS libaio-dev openssl-dev curl-dev \
+    && ln -s /usr/bin/phpize7 /usr/local/bin/phpize \
+    && ln -s /usr/bin/php-config7 /usr/local/bin/php-config \
+    # install composer
+    && wget -nv -O /usr/local/bin/composer https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
+    && chmod u+x /usr/local/bin/composer \
+    # php info
+    && php -v \
+    && php -m \
+    # ---------- clear works ----------
+    && rm -rf /var/cache/apk/* /tmp/* /usr/share/man \
+    && echo -e "\033[42;37m Build Completed :).\033[0m\n"
