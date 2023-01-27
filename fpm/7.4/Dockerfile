@@ -1,14 +1,11 @@
-FROM alpine:3.15
+FROM php:7.4-fpm-alpine3.16
 
 LABEL maintainer="wqsacy Developers" version="1.0" license="MIT"
 
 
 ARG COMPOSER_VERSION
 
-ENV COMPOSER_VERSION=${COMPOSER_VERSION:-"2.0.2"}
-
-# trust this project public key to trust the packages.
-ADD https://alpine-apk-repository.knowyourself.cc/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
+ENV COMPOSER_VERSION=${COMPOSER_VERSION:-"2.5.1"}
 
 ##
 # ---------- building ----------
@@ -28,7 +25,6 @@ RUN set -ex \
     libressl \
     tzdata \
     pcre \
-    php7 \
     php7-bcmath \
     php7-curl \
     php7-ctype \
