@@ -1,5 +1,7 @@
 ARG ALPINE_VERSION
 
+ENV ALPINE_VERSION=${ALPINE_VERSION:-"3.15"}
+
 FROM alpine:$ALPINE_VERSION
 
 LABEL maintainer="wqsacy Developers" version="1.0" license="MIT"
