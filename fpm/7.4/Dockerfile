@@ -15,8 +15,8 @@ ADD https://alpine-apk-repository.knowyourself.cc/php-alpine.rsa.pub /etc/apk/ke
 ##
 RUN set -ex \
     # change apk source repo
-    && echo "https://alpine-apk-repository.knowyourself.cc/v3.15/php-7.4" >> /etc/apk/repositories \
-    && echo "@php https://alpine-apk-repository.knowyourself.cc/v3.15/php-7.4" >> /etc/apk/repositories \
+    #&& echo "https://alpine-apk-repository.knowyourself.cc/v3.15/php-7.4" >> /etc/apk/repositories \
+    #&& echo "@php https://alpine-apk-repository.knowyourself.cc/v3.15/php-7.4" >> /etc/apk/repositories \
     && apk update \
     && apk add --no-cache \
     # Install base packages ('ca-certificates' will install 'nghttp2-libs')
@@ -56,11 +56,31 @@ RUN set -ex \
     php7-xmlreader \
     php7-pcntl \
     php7-opcache \
+    autoconf \
+    dpkg-dev \
+    dpkg \
+    file \
+    g++ \
+    gcc \
+    libc-dev \
+    make \
+    php7-dev \
+    php7-pear \
+    pkgconf \
+    re2c \
+    pcre-dev \
+    pcre2-dev \
+    zlib-dev \
+    libtool \
+    automake \
+    libstdc++ \
+    openssl \
+    git \
+    bash \
+    libaio-dev \
+    openssl-dev \
+    curl-dev \
     && ln -sf /usr/bin/php7 /usr/bin/php \
-    && ENV PHPIZE_DEPS="autoconf dpkg-dev dpkg file g++ gcc libc-dev make php7-dev php7-pear pkgconf re2c pcre-dev pcre2-dev zlib-dev libtool automake" \
-    && RUN set -ex \
-    && apk add --no-cache libstdc++ openssl git bash \
-    && apk add --no-cache $PHPIZE_DEPS libaio-dev openssl-dev curl-dev \
     && ln -s /usr/bin/phpize7 /usr/local/bin/phpize \
     && ln -s /usr/bin/php-config7 /usr/local/bin/php-config \
     # install composer
