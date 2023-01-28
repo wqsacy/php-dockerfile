@@ -1,11 +1,13 @@
-FROM php:7.4-fpm-alpine3.16
+FROM php:7.4-fpm-alpine3.15
 
 LABEL maintainer="wqsacy Developers" version="1.0" license="MIT"
-
 
 ARG COMPOSER_VERSION
 
 ENV COMPOSER_VERSION=${COMPOSER_VERSION:-"2.5.1"}
+
+# trust this project public key to trust the packages.
+ADD https://alpine-apk-repository.knowyourself.cc/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
 ##
 # ---------- building ----------
@@ -76,9 +78,30 @@ RUN set -ex \
     libaio-dev \
     openssl-dev \
     curl-dev \
-    && ln -sf /usr/bin/php7 /usr/bin/php \
-    && ln -s /usr/bin/phpize7 /usr/local/bin/phpize \
-    && ln -s /usr/bin/php-config7 /usr/local/bin/php-config \
+    freetds-dev \
+    freetype-dev \
+    gettext-dev \
+    libc-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    libssh2-dev \
+    libwebp-dev \
+    libxml2-dev \
+    libxpm-dev \
+    libxslt-dev \
+    libzip-dev \
+    zlib-dev \
+    && ln -s /usr/lib/x86_64-linux-gnu/libXpm.* /usr/lib/ \
+    && docker-php-ext-configure gd \
+        --enable-gd \
+        --with-webp \
+        --with-jpeg \
+        --with-xpm \
+        --with-freetype \
+    && docker-php-ext-install -j$(nproc) gd \
+    #    && ln -sf /usr/bin/php7 /usr/bin/php \
+#    && ln -s /usr/bin/phpize7 /usr/local/bin/phpize \
+#    && ln -s /usr/bin/php-config7 /usr/local/bin/php-config \
     # install composer
     && wget -nv -O /usr/local/bin/composer https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
     && chmod u+x /usr/local/bin/composer \
