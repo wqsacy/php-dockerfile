@@ -9,6 +9,9 @@ ENV COMPOSER_VERSION=${COMPOSER_VERSION:-"2.5.1"}
 # trust this project public key to trust the packages.
 ADD https://alpine-apk-repository.knowyourself.cc/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
+
+WORKDIR /opt/www
+
 ##
 # ---------- building ----------
 ##
@@ -16,9 +19,11 @@ RUN set -ex \
     # change apk source repo
     #&& echo "https://alpine-apk-repository.knowyourself.cc/v3.15/php-7.4" >> /etc/apk/repositories \
     #&& echo "@php https://alpine-apk-repository.knowyourself.cc/v3.15/php-7.4" >> /etc/apk/repositories \
+    && apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
     && apk update \
-    && apk add --no-cache \
-    # Install base packages ('ca-certificates' will install 'nghttp2-libs')
+    && apk add --no-cache --update --virtual .all-deps $PHP_MODULE_DEPS \
+    && set -eux \
+    && apk add --no-cache --virtual .build-deps \
     ca-certificates \
     curl \
     wget \
@@ -27,6 +32,8 @@ RUN set -ex \
     libressl \
     tzdata \
     pcre \
+    php7-cli \
+    mysql-client\
     php7-bcmath \
     php7-curl \
     php7-ctype \
@@ -92,6 +99,10 @@ RUN set -ex \
     libzip-dev \
     zlib-dev \
     && ln -s /usr/lib/x86_64-linux-gnu/libXpm.* /usr/lib/ \
+    && ln -sf /usr/bin/php7 /usr/bin/php \
+        && ln -sf /usr/bin/php7 /usr/local/bin/php \
+        && ln -sf /usr/bin/phpize7 /usr/local/bin/phpize \
+        && ln -sf /usr/bin/php-config7 /usr/local/bin/php-config \
     && docker-php-ext-configure gd \
         --enable-gd \
         --with-webp \
@@ -99,9 +110,6 @@ RUN set -ex \
         --with-xpm \
         --with-freetype \
     && docker-php-ext-install -j$(nproc) gd \
-    #    && ln -sf /usr/bin/php7 /usr/bin/php \
-#    && ln -s /usr/bin/phpize7 /usr/local/bin/phpize \
-#    && ln -s /usr/bin/php-config7 /usr/local/bin/php-config \
     # install composer
     && wget -nv -O /usr/local/bin/composer https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
     && chmod u+x /usr/local/bin/composer \
