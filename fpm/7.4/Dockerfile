@@ -61,6 +61,7 @@ RUN set -ex \
     php7-xmlreader \
     php7-pcntl \
     php7-opcache \
+    php7-fileinfo \
     autoconf \
     dpkg-dev \
     dpkg \
