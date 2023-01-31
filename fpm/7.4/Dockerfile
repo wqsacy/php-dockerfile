@@ -60,6 +60,7 @@ RUN set -ex \
     php7-xml \
     php7-xmlreader \
     php7-xmlwriter \
+    php7-simplexml \
     php7-pcntl \
     php7-opcache \
     php7-fileinfo \
