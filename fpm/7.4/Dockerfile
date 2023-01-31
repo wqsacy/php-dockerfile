@@ -59,6 +59,7 @@ RUN set -ex \
     php7-zlib \
     php7-xml \
     php7-xmlreader \
+    php7-xmlwriter \
     php7-pcntl \
     php7-opcache \
     php7-fileinfo \
@@ -115,7 +116,7 @@ RUN set -ex \
     && wget -nv -O /usr/local/bin/composer https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
     && chmod u+x /usr/local/bin/composer \
     && apk del --purge *-dev \
-    && rm -rf /var/cache/apk/* /tmp/* /usr/share/man /usr/share/php7 \
+    && rm -rf /var/cache/apk/* /tmp/* /usr/share/man /usr/share/php7  /usr/src/*  \
     && php -v \
     && php -m \
     && echo -e "\033[42;37m Build Completed :).\033[0m\n"
