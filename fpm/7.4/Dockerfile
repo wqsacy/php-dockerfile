@@ -118,7 +118,7 @@ RUN set -ex \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
-    && apk del .imagick-deps
+    && apk del .imagick-deps \
     # install composer
     && wget -nv -O /usr/local/bin/composer https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
     && chmod u+x /usr/local/bin/composer \
