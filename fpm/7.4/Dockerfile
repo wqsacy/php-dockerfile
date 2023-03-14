@@ -103,7 +103,6 @@ RUN set -ex \
     libzip-dev \
     zlib-dev \
     imagemagick-dev \
-    libtool \
     && ln -s /usr/lib/x86_64-linux-gnu/libXpm.* /usr/lib/ \
     && ln -sf /usr/bin/php7 /usr/bin/php \
         && ln -sf /usr/bin/php7 /usr/local/bin/php \
@@ -118,7 +117,6 @@ RUN set -ex \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
-    && apk del .imagick-deps \
     # install composer
     && wget -nv -O /usr/local/bin/composer https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
     && chmod u+x /usr/local/bin/composer \

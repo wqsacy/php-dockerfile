@@ -118,6 +118,7 @@ RUN if [ "$APKMIRROR" != "dl-cdn.alpinelinux.org" ]; then sed -i 's/dl-cdn.alpin
                 libpng-dev \
                 freetype \
                 libffi \
+                pcntl \
        		libgmpxx \
         	libintl \
         	libjpeg-turbo \

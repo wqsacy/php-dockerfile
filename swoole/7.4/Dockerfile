@@ -54,6 +54,7 @@ RUN set -ex \
 RUN apk add gnu-libiconv=1.15-r3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ --allow-untrusted
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
+# php -d error_reporting=22527 -d display_errors=1 -r 'var_dump(iconv("UTF-8", "UTF-8//IGNORE", "This is the Euro symbol '\''€'\''."));'
 
 COPY . /opt/www
 
