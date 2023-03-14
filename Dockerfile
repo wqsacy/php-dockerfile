@@ -118,7 +118,6 @@ RUN if [ "$APKMIRROR" != "dl-cdn.alpinelinux.org" ]; then sed -i 's/dl-cdn.alpin
                 libpng-dev \
                 freetype \
                 libffi \
-                pcntl \
        		libgmpxx \
         	libintl \
         	libjpeg-turbo \
@@ -246,7 +245,6 @@ RUN curl http://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --fil
         vips-dev \
         yaml-dev \
         zlib-dev \
-        php81-pcntl \
     && ln -s /usr/lib/x86_64-linux-gnu/libXpm.* /usr/lib/ \
     && docker-php-ext-configure gd \
         --enable-gd \
@@ -259,8 +257,10 @@ RUN curl http://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --fil
     && printf "\n\n" | pecl install amqp \
     && docker-php-ext-enable amqp \
     && printf "\n\n\n\n" | pecl install -o -f redis \
+    && printf "\n\n\n\n" | pecl install -o -f pcntl \
     && docker-php-ext-enable redis \
     && docker-php-ext-enable sockets \
+    && docker-php-ext-enable pcntl \
     && pecl install msgpack && docker-php-ext-enable msgpack \
     && pecl install igbinary && docker-php-ext-enable igbinary \
     && printf "\n\n\n\n\n\n\n\n\n\n" | pecl install memcached \
