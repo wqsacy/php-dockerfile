@@ -246,6 +246,7 @@ RUN curl http://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --fil
         vips-dev \
         yaml-dev \
         zlib-dev \
+        pcntl \
     && ln -s /usr/lib/x86_64-linux-gnu/libXpm.* /usr/lib/ \
     && docker-php-ext-configure gd \
         --enable-gd \
