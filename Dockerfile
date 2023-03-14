@@ -253,14 +253,12 @@ RUN curl http://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --fil
         --with-xpm \
         --with-freetype \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install sockets bcmath intl soap mysqli pdo pdo_mysql pgsql pdo_pgsql zip ldap imap dom opcache \
+    && docker-php-ext-install sockets bcmath intl soap mysqli pdo pdo_mysql pgsql pdo_pgsql zip ldap imap dom opcache pcntl \
     && printf "\n\n" | pecl install amqp \
     && docker-php-ext-enable amqp \
     && printf "\n\n\n\n" | pecl install -o -f redis \
-    && printf "\n\n\n\n" | pecl install -o -f pcntl \
     && docker-php-ext-enable redis \
     && docker-php-ext-enable sockets \
-    && docker-php-ext-enable pcntl \
     && pecl install msgpack && docker-php-ext-enable msgpack \
     && pecl install igbinary && docker-php-ext-enable igbinary \
     && printf "\n\n\n\n\n\n\n\n\n\n" | pecl install memcached \
