@@ -4,7 +4,7 @@ name: build base docker image
 on:
   push:
     tags:
-      - 'php74-jam*'
+      - 'jam-php74*'
   # Allows you to run this workflow manually from the Actions tab
   # 可以手动触发
   workflow_dispatch:
@@ -55,4 +55,4 @@ jobs:
           # 给清单打上多个标签
           tags: |
             wqsacy/php74:jam_dev
-            wqsacy/php74:latest
+            wqsacy/php74:jam_latest
