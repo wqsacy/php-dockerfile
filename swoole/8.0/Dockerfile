@@ -19,6 +19,8 @@ RUN set -ex \
     #  ---------- php add extensions ---------- \
     && apk add --no-cache \
             php8-fpm    \
+            imap    \
+            imap-dev    \
     && php -m \
     #  ---------- some config ----------
     && cd /etc/php8 \
