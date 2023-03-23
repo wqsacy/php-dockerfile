@@ -148,12 +148,11 @@ fi
 
 # cp -Rf /var/www/html/config.orig/* /var/www/html/config/
 
-if [[ "$CREATE_LARAVEL_STORAGE" == "1" ]] ; then
-  mkdir -p /var/www/html/storage/{logs,app/public,framework/{cache/data,sessions,testing,views}}
-  chown -Rf nginx:nginx /var/www/html/storage
-  chmod -R 777 /var/www/html/bootstrap/cache
-  adduser -s /bin/bash -g 82 -D sail
-fi
+mkdir -p /var/www/html/storage/{logs,app/public,framework/{cache/data,sessions,testing,views}}
+chown -Rf nginx:nginx /var/www/html/storage
+chmod -R 777 /var/www/html/bootstrap/cache
+chmod -R 777 /var/www/html/storage/*
+adduser -s /bin/bash -g 82 -D sail
 
 # sed -i 's/error_log \/dev\/stderr info;//g' /etc/supervisord.conf
 
