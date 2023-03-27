@@ -158,3 +158,6 @@ adduser -s /bin/bash -g 82 -D sail
 
 # Start supervisord and services
 exec /usr/bin/supervisord -n -c /etc/supervisord.conf
+
+# 启动 crond 守护进程
+crond -L /var/log/crond.log -l 8
