@@ -5,7 +5,7 @@ on:
   push:
     tags:
       - 'php-fpm-81*'
-  # Allows you to run this workflow manually from the Actions tab
+  # Allows you to run this workflow manually from the Actio  ns tab
   # 可以手动触发
   workflow_dispatch:
     inputs:
