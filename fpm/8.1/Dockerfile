@@ -92,6 +92,8 @@ RUN apk add --no-cache git supervisor; \
     \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; \
     \
+    mkdir -p /var/log/supervisor \
+    \
     mkdir -p /etc/supervisord.conf.d; \
     { \
         echo '[unix_http_server]'; \
