@@ -6,6 +6,7 @@ RUN set -ex; \
     apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         freetype-dev \
+        openssl-dev \
         icu-dev \
         imap-dev \
         krb5-dev \
