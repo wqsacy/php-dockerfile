@@ -109,6 +109,7 @@ RUN apk add --no-cache git supervisor; \
         echo 'nodaemon=true'; \
         echo 'minfds=1024'; \
         echo 'minprocs=200'; \
+        echo 'user=root'; \
         echo; \
         echo '[rpcinterface:supervisor]'; \
         echo 'supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface'; \
@@ -118,6 +119,16 @@ RUN apk add --no-cache git supervisor; \
         echo; \
         echo '[include]'; \
         echo 'files = /etc/supervisord.conf.d/*.conf'; \
+        echo; \
+        echo '[program:php-fpm]'; \
+        echo 'command=php-fpm'; \
+        echo 'autostart=true'; \
+        echo 'autorestart=true'; \
+        echo 'priority=5'; \
+        echo 'stdout_logfile=/dev/stdout'; \
+        echo 'stdout_logfile_maxbytes=0'; \
+        echo 'stderr_logfile=/dev/stderr'; \
+        echo 'stderr_logfile_maxbytes=0'; \
     } > /etc/supervisord.conf
 
 # Expose the default FPM port
@@ -127,4 +138,3 @@ EXPOSE 9000
 WORKDIR /opt/www
 
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]
-
