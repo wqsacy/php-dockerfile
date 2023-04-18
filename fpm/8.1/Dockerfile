@@ -29,6 +29,7 @@ RUN set -ex; \
     \
     docker-php-ext-install -j "$(nproc)" \
         exif \
+        sockets \
         fileinfo \
         gd \
         imap \
