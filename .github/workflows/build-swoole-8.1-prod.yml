@@ -47,12 +47,11 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./swoole/8.1/
-          file: ./swoole/8.1/Dockerfile
+          file: ./swoole/8.1/Dockerfile-prod
           # 所需要的体系结构，可以在 Available platforms 步骤中获取所有的可用架构
           platforms: linux/amd64,linux/arm64/v8
           # 镜像推送时间
           push: ${{ github.event_name != 'pull_request' }}
           # 给清单打上多个标签
           tags: |
-            wqsacy/php81_swoole:test
-            wqsacy/php81_swoole:latest
+            wqsacy/php81_swoole:prod
