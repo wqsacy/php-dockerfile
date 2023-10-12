@@ -1,6 +1,6 @@
 
 FROM hyperf/hyperf:8.1-alpine-v3.16-swoole
-LABEL maintainer="Jam php81 prod" version="1.0" license="MIT" app.name="Hyperf"
+LABEL maintainer="Jam php81 prod" version="1.0" license="MIT" app.name="planet-api-hyperf"
 
 ##
 # ---------- env settings ----------
