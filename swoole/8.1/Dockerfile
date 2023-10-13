@@ -1,6 +1,6 @@
 
 FROM hyperf/hyperf:8.1-alpine-v3.16-swoole
-LABEL maintainer="Jam php81 prod" version="1.0" license="MIT" app.name="planet-api-hyperf"
+LABEL maintainer="Jam php81 prod" version="1.0" license="MIT" app.name="Hyperf"
 
 ##
 # ---------- env settings ----------
@@ -9,7 +9,7 @@ LABEL maintainer="Jam php81 prod" version="1.0" license="MIT" app.name="planet-a
 ARG timezone
 
 ENV TIMEZONE=${timezone:-"UTC"} \
-    APP_ENV=prod \
+    APP_ENV=dev \
     SCAN_CACHEABLE=(true)
 
 # update

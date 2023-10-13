@@ -9,7 +9,6 @@ LABEL maintainer="Jam php81 prod" version="1.0" license="MIT" app.name="Hyperf"
 ARG timezone
 
 ENV TIMEZONE=${timezone:-"UTC"} \
-    APP_ENV=prod \
     SCAN_CACHEABLE=(true)
 
 # update
