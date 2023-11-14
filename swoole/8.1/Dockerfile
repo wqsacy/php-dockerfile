@@ -10,7 +10,7 @@ ARG timezone
 
 ENV TIMEZONE=${timezone:-"UTC"} \
     APP_ENV=dev \
-    SCAN_CACHEABLE=(true)
+    SCAN_CACHEABLE=(false)
 
 # update
 RUN set -ex \
