@@ -42,14 +42,14 @@ WORKDIR /var/www
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # 设置 Laravel 的伪静态规则
-COPY fpm/8.1/with_nginx/laravel_nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./laravel_nginx.conf /etc/nginx/conf.d/default.conf
 
 # 暴露 8080 端口
 EXPOSE 8080
 
 # 安装 Supervisor
 RUN apk add --no-cache supervisor
-COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ../../conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # 阶段构建，从 PHP 容器复制已经安装好的 Laravel 项目
 COPY --from=php-stage /var/www /var/www
