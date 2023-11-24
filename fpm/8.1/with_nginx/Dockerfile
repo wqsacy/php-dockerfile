@@ -24,13 +24,6 @@ RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage \
     && chmod -R 755 /var/www/bootstrap/cache
 
-# 安装 Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN composer install --no-dev --optimize-autoloader
-
-# 清理缓存
-RUN composer clear-cache
-
 # 阶段 2：Nginx 环境
 # 基于 Nginx Alpine
 FROM nginx:alpine as nginx-stage
@@ -39,17 +32,17 @@ FROM nginx:alpine as nginx-stage
 WORKDIR /var/www
 
 # 复制 Nginx 配置文件
-COPY ../../conf/nginx.conf /etc/nginx/nginx.conf
+COPY ./config/nginx.conf /etc/nginx/nginx.conf
 
 # 设置 Laravel 的伪静态规则
-COPY ./laravel_nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./config/laravel_nginx.conf /etc/nginx/conf.d/default.conf
 
 # 暴露 8080 端口
 EXPOSE 8080
 
 # 安装 Supervisor
 RUN apk add --no-cache supervisor
-COPY ../../conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # 阶段构建，从 PHP 容器复制已经安装好的 Laravel 项目
 COPY --from=php-stage /var/www /var/www
