@@ -39,7 +39,7 @@ FROM nginx:alpine as nginx-stage
 WORKDIR /var/www
 
 # 复制 Nginx 配置文件
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ../../conf/nginx.conf /etc/nginx/nginx.conf
 
 # 设置 Laravel 的伪静态规则
 COPY ./laravel_nginx.conf /etc/nginx/conf.d/default.conf
