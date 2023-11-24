@@ -22,10 +22,13 @@ WORKDIR /var/www
 # 复制 Laravel 项目文件
 COPY . /var/www
 
-# 设置权限
+# 确保 storage 和 bootstrap/cache 目录存在
+RUN mkdir -p /var/www/storage /var/www/bootstrap/cache
+
+# 然后设置权限
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage \
-    && chmod -R 755 /var/www/bootstrap/cache
+    && find /var/www/storage -type d -exec chmod 755 {} \; \
+    && find /var/www/bootstrap/cache -type d -exec chmod 755 {} \;
 
 # 阶段 2：Nginx 环境
 # 基于 Nginx Alpine
