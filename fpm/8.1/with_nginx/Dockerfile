@@ -3,15 +3,18 @@
 FROM php:8.1-fpm-alpine3.16 as php-stage
 
 # 安装 PHP 扩展
-RUN docker-php-ext-install pdo pdo_mysql fileinfo
-RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev \
+RUN apk update \
+    && apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
     && apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
 
-# 安装 Redis 扩展
-RUN apk add --no-cache redis
-RUN pecl install redis && docker-php-ext-enable redis
+# 安装 Redis 扩展依赖项和扩展
+RUN apk add --no-cache autoconf gcc make musl-dev pcre-dev php8-pear php8-dev \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del --no-cache autoconf gcc make musl-dev pcre-dev php8-pear php8-dev
+
 
 # 设置工作目录
 WORKDIR /var/www
