@@ -36,9 +36,10 @@ RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
     && find /var/www/storage -type d -exec chmod 755 {} \; \
     && find /var/www/bootstrap/cache -type d -exec chmod 755 {} \;
 
-# 复制 Nginx 和 Supervisor 配置文件
+# 复制 Nginx , php-fpm , Supervisor 配置文件
 COPY ./config/nginx.conf /etc/nginx/nginx.conf
 COPY ./config/laravel_nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./config/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # 设置工作目录
