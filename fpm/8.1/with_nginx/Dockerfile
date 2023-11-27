@@ -37,7 +37,7 @@ COPY ./config/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # 设置工作目录
-WORKDIR /var/www
+WORKDIR /var/www/html
 
 # 暴露 8080 端口
 EXPOSE 8080
