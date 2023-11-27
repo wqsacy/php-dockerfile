@@ -53,5 +53,6 @@ COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # 阶段构建，从 PHP 容器复制已经安装好的 Laravel 项目
 COPY --from=php-stage /var/www /var/www
 
-# 设置启动命令
-CMD ["nginx", "-g", "daemon off;"]
+# 设置启动命令，启动php-fpm 和 nginx
+#CMD ["nginx", "-g", "daemon off;"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
