@@ -50,8 +50,10 @@ EXPOSE 8080
 RUN apk add --no-cache supervisor
 COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# 阶段构建，从 PHP 容器复制已经安装好的 Laravel 项目
+# 阶段构建，从 PHP 容器复制环境和 Laravel 项目
 COPY --from=php-stage /var/www /var/www
+COPY --from=php-stage /usr/local/etc/php /usr/local/etc/php
+COPY --from=php-stage /usr/local/sbin/php-fpm /usr/local/sbin/php-fpm
 
 # 设置启动命令，启动php-fpm 和 nginx
 #CMD ["nginx", "-g", "daemon off;"]
