@@ -57,4 +57,4 @@ COPY --from=php-stage /usr/local/sbin/php-fpm /usr/local/sbin/php-fpm
 
 # 设置启动命令，启动php-fpm 和 nginx
 #CMD ["nginx", "-g", "daemon off;"]
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
