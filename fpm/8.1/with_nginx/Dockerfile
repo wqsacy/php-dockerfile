@@ -32,6 +32,7 @@ COPY . /var/www
 
 # 确保 storage 和 bootstrap/cache 目录存在，并设置权限
 RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
+    && mkdir -p /var/run/php && chown www-data:www-data /var/run/php \
     && chown -R www-data:www-data /var/www \
     && find /var/www/storage -type d -exec chmod 755 {} \; \
     && find /var/www/bootstrap/cache -type d -exec chmod 755 {} \;
