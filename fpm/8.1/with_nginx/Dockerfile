@@ -27,16 +27,6 @@ RUN apk update && apk add --no-cache \
     && apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev autoconf gcc make musl-dev pcre-dev php8-pear php8-dev \
     && rm -rf /var/cache/apk/*
 
-# 复制 Laravel 项目文件
-COPY . /var/www
-
-# 确保 storage 和 bootstrap/cache 目录存在，并设置权限
-RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
-    && mkdir -p /var/run/php && chown www-data:www-data /var/run/php \
-    && chown -R www-data:www-data /var/www \
-    && find /var/www/storage -type d -exec chmod 755 {} \; \
-    && find /var/www/bootstrap/cache -type d -exec chmod 755 {} \;
-
 # 复制 Nginx , php-fpm , Supervisor 配置文件
 COPY ./config/nginx.conf /etc/nginx/nginx.conf
 COPY ./config/laravel_nginx.conf /etc/nginx/conf.d/default.conf
