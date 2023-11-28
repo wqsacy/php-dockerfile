@@ -19,12 +19,9 @@ RUN apk update && apk add --no-cache \
     nginx \
     supervisor \
     # 配置和安装 PHP 扩展
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install gd \
-    && docker-php-ext-install mysqli \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install opcache \
-    && docker-php-ext-install zip \
+    && docker-php-ext-install sockets bcmath intl mysqli pdo pdo_mysql zip opcache \
     && pecl install redis \
     && docker-php-ext-enable redis \
     # 清理不再需要的包和缓存
