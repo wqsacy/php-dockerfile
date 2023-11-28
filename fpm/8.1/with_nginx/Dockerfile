@@ -10,6 +10,8 @@ RUN apk update && apk add --no-cache \
     libpng-dev \
     libwebp-dev \
     libjpeg-turbo-dev \
+    icu-dev \
+    libzip-dev \
     autoconf \
     gcc \
     make \
@@ -26,7 +28,7 @@ RUN apk update && apk add --no-cache \
     && pecl install redis \
     && docker-php-ext-enable redis \
     # 清理不再需要的包和缓存
-    && apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev autoconf gcc make musl-dev pcre-dev php8-pear php8-dev \
+    && apk del --no-cache freetype-dev libpng-dev libwebp-dev libjpeg-turbo-dev icu-dev libzip-dev autoconf gcc make musl-dev pcre-dev php8-pear php8-dev \
     && rm -rf /var/cache/apk/* \
     # 确保套接字目录存在，并设置权限
     && mkdir -p /var/run/php && chown www-data:www-data /var/run/php
