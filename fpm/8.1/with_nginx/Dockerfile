@@ -8,6 +8,7 @@ RUN apk update && apk add --no-cache \
     libjpeg-turbo \
     freetype-dev \
     libpng-dev \
+    libwebp-dev \
     libjpeg-turbo-dev \
     autoconf \
     gcc \
