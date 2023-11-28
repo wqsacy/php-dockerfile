@@ -35,7 +35,9 @@ RUN apk update && apk add --no-cache \
     && apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev autoconf gcc make musl-dev pcre-dev php8-pear php8-dev \
     && rm -rf /var/cache/apk/* \
     # 确保套接字目录存在，并设置权限
-    && mkdir -p /var/run/php && chown www-data:www-data /var/run/php
+    && mkdir -p /var/run/php && chown www-data:www-data /var/run/php \
+    # 确保环境日志目录存在，并设置权限
+    && mkdir -p /var/log && find /var/log -type d -exec chmod 755 {} \;
 
 
 # 复制 Nginx , php-fpm , Supervisor 配置文件
