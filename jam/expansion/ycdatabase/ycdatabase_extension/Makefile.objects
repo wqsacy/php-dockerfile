@@ -1,0 +1,22 @@
+ycdatabase.lo: /opt/jammyfm/app/ycdatabase/ycdatabase_extension/ycdatabase.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/opt/jammyfm/app/ycdatabase/ycdatabase_extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /opt/jammyfm/app/ycdatabase/ycdatabase_extension/ycdatabase.c -o ycdatabase.lo 
+src/memory.lo: /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/memory.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/opt/jammyfm/app/ycdatabase/ycdatabase_extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/memory.c -o src/memory.lo 
+src/operator.lo: /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/operator.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/opt/jammyfm/app/ycdatabase/ycdatabase_extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/operator.c -o src/operator.lo 
+src/string.lo: /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/string.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/opt/jammyfm/app/ycdatabase/ycdatabase_extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/string.c -o src/string.lo 
+src/array.lo: /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/array.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/opt/jammyfm/app/ycdatabase/ycdatabase_extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/array.c -o src/array.lo 
+src/object.lo: /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/object.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/opt/jammyfm/app/ycdatabase/ycdatabase_extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/object.c -o src/object.lo 
+src/net.lo: /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/net.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/opt/jammyfm/app/ycdatabase/ycdatabase_extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/net.c -o src/net.lo 
+src/db/ycdb.lo: /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/db/ycdb.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/opt/jammyfm/app/ycdatabase/ycdatabase_extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /opt/jammyfm/app/ycdatabase/ycdatabase_extension/src/db/ycdb.c -o src/db/ycdb.lo 
+$(phplibdir)/ycdatabase.la: ./ycdatabase.la
+	$(LIBTOOL) --mode=install cp ./ycdatabase.la $(phplibdir)
+
+./ycdatabase.la: $(shared_objects_ycdatabase) $(YCDATABASE_SHARED_DEPENDENCIES)
+	$(LIBTOOL) --mode=link $(CC) $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS) $(LDFLAGS)  -o $@ -export-dynamic -avoid-version -prefer-pic -module -rpath $(phplibdir) $(EXTRA_LDFLAGS) $(shared_objects_ycdatabase) $(YCDATABASE_SHARED_LIBADD)
+

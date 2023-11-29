@@ -1,76 +1,57 @@
-# 基于官方PHP 7.4
+# 使用 PHP 7.4.33 FPM 作为基础镜像
 FROM php:7.4.33-fpm
 
-# 安装必要的软件包和PHP扩展
+# 安装 PHP 扩展和必要的库
 RUN apt-get update && apt-get install -y \
-    zlib1g-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libxml2-dev \
-    libcurl4-openssl-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev \
-    libxpm-dev \
-    libwebp-dev \
-    libzip-dev \
-    libonig-dev \
-    libmagickwand-dev \
-    libssl-dev \
-    wget \
-    unzip \
-    git \
-    && docker-php-ext-configure gd \
-               --enable-gd \
-               --with-freetype \
-               --with-jpeg \
-               --with-webp \
-               --with-xpm \
-    && docker-php-ext-install -j$(nproc) gd mysqli pdo_mysql opcache fileinfo
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libwebp-dev \
+        libzip-dev \
+    && docker-php-ext-install -j$(nproc) bcmath ctype curl dom exif fileinfo filter ftp \
+        gettext hash iconv intl json mbstring mysqli pcntl pdo pdo_mysql pdo_sqlite \
+        phar posix reflection session shmop simplexml soap sockets sodium \
+        spl sqlite3 standard tokenizer xml xmlreader xmlrpc xmlwriter xsl zip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-enable opcache
 
-# 安装Swoole, Yaf, Yac, igbinary
-RUN pecl install swoole-4.8.9 \
-    && pecl install redis \
-    && pecl install imagick \
-    && pecl install igbinary-3.2.6 \
-    && pecl install yac-2.3.1 \
-    && pecl install yaf-3.3.5 \
-    && docker-php-ext-enable swoole redis imagick igbinary yac yaf
+# 安装 Redis、Swoole 扩展
+RUN pecl install redis swoole \
+    && docker-php-ext-enable redis swoole
 
-# 下载并编译ycdatabase和ext-orm
-RUN cd /tmp/ \
-    && wget https://jammyfm.oss-cn-qingdao.aliyuncs.com/php-extension/ycdatabase.zip \
-    && unzip ycdatabase.zip \
-    && cd ycdatabase/ycdatabase_extension \
-    && phpize \
-    && chmod +x ./configure \
-    && ./configure --with-php-config=/usr/local/bin/php-config \
-    && make \
-    && make install \
-    && cd /tmp/ \
-    && rm -rf ycdatabase ycdatabase.zip
+# 安装和配置 swoole_orm 扩展
+COPY expansion/swoole_orm /usr/src/swoole_orm
+RUN cd /usr/src/swoole_orm && \
+    chmod +x ./configure && \
+    ./configure && \
+    make && make install && \
+    docker-php-ext-enable swoole_orm
 
-RUN cd /tmp/ \
-    && wget https://jammyfm.oss-cn-qingdao.aliyuncs.com/php-extension/ext-orm.zip \
-    && unzip ext-orm.zip \
-    && cd ext-orm \
-    && phpize \
-    && chmod +x ./configure \
-    && ./configure --with-php-config=/usr/local/bin/php-config \
-    && make \
-    && make install \
-    && cd /tmp/ \
-    && rm -rf ext-orm ext-orm.zip
+# 安装和配置 ycdatabase 扩展
+COPY expansion/ycdatabase/ycdatabase_extension /usr/src/ycdatabase
+RUN cd /usr/src/ycdatabase && \
+    chmod +x ./configure && \
+    ./configure && \
+    make && make install && \
+    docker-php-ext-enable ycdatabase
 
-# 配置加载顺序
-RUN echo "extension=swoole.so" > $PHP_INI_DIR/conf.d/10-swoole.ini \
-    && echo "extension=redis.so" > $PHP_INI_DIR/conf.d/20-redis.ini \
-    && echo "extension=imagick.so" > $PHP_INI_DIR/conf.d/30-imagick.ini \
-    && echo "extension=igbinary.so" > $PHP_INI_DIR/conf.d/40-igbinary.ini \
-    && echo "extension=yac.so" > $PHP_INI_DIR/conf.d/50-yac.ini \
-    && echo "extension=yaf.so" > $PHP_INI_DIR/conf.d/60-yaf.ini \
-    && echo "extension=swoole_orm.so" > $PHP_INI_DIR/conf.d/70-swoole_orm.ini \
-    && echo "extension=ycdatabase.so" > $PHP_INI_DIR/conf.d/80-ycdatabase.ini
+# 安装 Nginx 和 Supervisor
+RUN apt-get install -y nginx supervisor
 
-# 设置工作目录
-WORKDIR /opt/jammyfm/www
+# 清理并减少镜像大小
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 复制配置文件
+COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/default.conf /etc/nginx/conf.d/default.conf
+COPY conf/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY conf/yac.ini /usr/local/etc/php/conf.d/yac.ini
+COPY conf/yaf.ini /usr/local/etc/php/conf.d/yaf.ini
+
+# 打开 8080 端口
+EXPOSE 8080
+
+# 启动 Supervisor 管理 Nginx 和 PHP-FPM
+CMD ["/usr/bin/supervisord"]
