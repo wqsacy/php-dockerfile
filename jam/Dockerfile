@@ -26,7 +26,9 @@ RUN apt-get update && apt-get install -y \
 
 # 安装 Redis、Swoole 扩展
 RUN pecl install redis swoole \
-    && docker-php-ext-enable redis swoole
+    && pecl install yac-2.3.1 \
+    && pecl install yaf-3.3.5 \
+    && docker-php-ext-enable redis swoole yac yaf
 
 # 安装和配置 swoole_orm 扩展
 COPY expansion/swoole_orm /usr/src/swoole_orm
