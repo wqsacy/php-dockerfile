@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         unzip \
         nginx \
         supervisor \
-    && docker-php-ext-install -j$(nproc) bcmath intl gd mysqli pdo_mysql opcache fileinfo \
+    && docker-php-ext-install -j$(nproc) bcmath intl gd mysqli pdo_mysql fileinfo \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-enable opcache \
