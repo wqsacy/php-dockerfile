@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
         libpng-dev \
         libwebp-dev \
         libzip-dev \
+        libcurl4-openssl-dev \
     && docker-php-ext-install -j$(nproc) bcmath ctype curl dom exif fileinfo filter ftp \
         gettext hash iconv intl json mbstring mysqli pcntl pdo pdo_mysql pdo_sqlite \
         phar posix reflection session shmop simplexml soap sockets sodium \
