@@ -56,7 +56,7 @@ COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY conf/yaf.ini /usr/local/etc/php/conf.d/yaf.ini
 
 # 设置工作目录
-WORKDIR /var/www/html
+WORKDIR /opt/jammyfm/www/
 
 # 打开 8080 端口
 EXPOSE 8080
