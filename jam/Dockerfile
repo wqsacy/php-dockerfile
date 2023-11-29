@@ -31,16 +31,18 @@ RUN pecl install redis swoole \
 # 安装和配置 swoole_orm 扩展
 COPY expansion/swoole_orm /usr/src/swoole_orm
 RUN cd /usr/src/swoole_orm && \
+    phpize && \
     chmod +x ./configure && \
-    ./configure && \
+    ./configure --with-php-config=/usr/local/bin/php-config \ && \
     make && make install && \
     docker-php-ext-enable swoole_orm
 
 # 安装和配置 ycdatabase 扩展
 COPY expansion/ycdatabase/ycdatabase_extension /usr/src/ycdatabase
 RUN cd /usr/src/ycdatabase && \
+    phpize && \
     chmod +x ./configure && \
-    ./configure && \
+    ./configure --with-php-config=/usr/local/bin/php-config && \
     make && make install && \
     docker-php-ext-enable ycdatabase
 
