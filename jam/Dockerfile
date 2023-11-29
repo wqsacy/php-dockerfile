@@ -66,4 +66,4 @@ COPY conf/yaf.ini /usr/local/etc/php/conf.d/yaf.ini
 EXPOSE 8080
 
 # 启动 Supervisor 管理 Nginx 和 PHP-FPM
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
