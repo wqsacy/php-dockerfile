@@ -40,8 +40,8 @@ RUN cd /usr/src/swoole_orm && \
     docker-php-ext-enable swoole_orm
 
 # 安装和配置 ycdatabase 扩展
-COPY expansion/ycdatabase/ycdatabase_extension /usr/src/ycdatabase
-RUN cd /usr/src/ycdatabase && \
+COPY expansion/ycdatabase /usr/src/ycdatabase
+RUN cd /usr/src/ycdatabase/ycdatabase_extension && \
     phpize && \
     chmod +x ./configure && \
     ./configure --with-php-config=/usr/local/bin/php-config && \
