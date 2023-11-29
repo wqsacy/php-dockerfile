@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable opcache
 
 # 安装 Redis、Swoole 扩展
-RUN pecl install redis swoole \
+RUN pecl install redis swoole-4.8.12 \
     && pecl install yac-2.3.1 \
     && pecl install yaf-3.3.5 \
     && docker-php-ext-enable redis swoole yac yaf
