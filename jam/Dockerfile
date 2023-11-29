@@ -19,10 +19,7 @@ RUN apt-get update && apt-get install -y \
             libssl-dev \
             wget \
             unzip \
-    && docker-php-ext-install -j$(nproc) bcmath ctype curl dom exif fileinfo filter ftp \
-        gettext hash iconv intl json mbstring mysqli pcntl pdo pdo_mysql pdo_sqlite \
-        phar posix reflection session shmop simplexml soap sockets sodium \
-        spl sqlite3 standard tokenizer xml xmlreader xmlrpc xmlwriter xsl zip \
+    && docker-php-ext-install -j$(nproc) bcmath intl gd mysqli pdo_mysql opcache fileinfo \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-enable opcache
