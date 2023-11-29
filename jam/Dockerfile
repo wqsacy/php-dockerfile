@@ -52,14 +52,17 @@ RUN cd /usr/src/ycdatabase/ycdatabase_extension && \
 RUN apt-get install -y nginx supervisor
 
 # 清理并减少镜像大小
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    # 确保套接字目录存在，并设置权限
+    && mkdir -p /var/run/php && chown www-data:www-data /var/run/php \
+    # 确保环境日志目录存在，并设置权限
+    && mkdir -p /var/log && find /var/log -type d -exec chmod 755 {} \;
 
 # 复制配置文件
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 COPY conf/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY conf/yac.ini /usr/local/etc/php/conf.d/yac.ini
 COPY conf/yaf.ini /usr/local/etc/php/conf.d/yaf.ini
 
 # 打开 8080 端口
