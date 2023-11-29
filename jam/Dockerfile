@@ -3,12 +3,22 @@ FROM php:7.4.33-fpm
 
 # 安装 PHP 扩展和必要的库
 RUN apt-get update && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-        libwebp-dev \
-        libzip-dev \
-        libcurl4-openssl-dev \
+        zlib1g-dev \
+            libpng-dev \
+            libjpeg-dev \
+            libxml2-dev \
+            libcurl4-openssl-dev \
+            libfreetype6-dev \
+            libjpeg62-turbo-dev \
+            libpng-dev \
+            libxpm-dev \
+            libwebp-dev \
+            libzip-dev \
+            libonig-dev \
+            libmagickwand-dev \
+            libssl-dev \
+            wget \
+            unzip \
     && docker-php-ext-install -j$(nproc) bcmath ctype curl dom exif fileinfo filter ftp \
         gettext hash iconv intl json mbstring mysqli pcntl pdo pdo_mysql pdo_sqlite \
         phar posix reflection session shmop simplexml soap sockets sodium \
