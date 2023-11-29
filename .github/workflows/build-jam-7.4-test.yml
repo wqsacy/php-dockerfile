@@ -4,7 +4,7 @@ name: build base docker image
 on:
   push:
     tags:
-      - 'jam-php74-prod*'
+      - 'jam-php74-test*'
   # Allows you to run this workflow manually from the Actions tab
   # 可以手动触发
   workflow_dispatch:
@@ -47,11 +47,11 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./jam/
-          file: ./jam/Dockerfile
+          file: ./jam/Dockerfile-test
           # 所需要的体系结构，可以在 Available platforms 步骤中获取所有的可用架构
           platforms: linux/amd64,linux/arm64/v8
           # 镜像推送时间
           push: ${{ github.event_name != 'pull_request' }}
           # 给清单打上多个标签
           tags: |
-            wqsacy/jam-php74-nginx:latest
+            wqsacy/jam-php74-nginx:test
