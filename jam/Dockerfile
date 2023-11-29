@@ -35,7 +35,7 @@ COPY expansion/swoole_orm /usr/src/swoole_orm
 RUN cd /usr/src/swoole_orm && \
     phpize && \
     chmod +x ./configure && \
-    ./configure --with-php-config=/usr/local/bin/php-config \ && \
+    ./configure --with-php-config=/usr/local/bin/php-config && \
     make && make install && \
     docker-php-ext-enable swoole_orm
 
