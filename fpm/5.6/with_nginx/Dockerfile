@@ -30,7 +30,7 @@ RUN apk update && apk add --no-cache \
     && docker-php-ext-install gd \
     && docker-php-ext-install sockets bcmath intl mysqli pdo pdo_mysql zip opcache \
     # 安装 Redis 扩展的依赖
-    && apk add --no-cache hiredis-dev \
+    && apk add --no-cache hiredis \
     # 下载、解压、编译并安装Redis扩展
     && curl -L -o redis.tar.gz https://github.com/phpredis/phpredis/archive/2.2.8.tar.gz \
     && tar xfz redis.tar.gz \
