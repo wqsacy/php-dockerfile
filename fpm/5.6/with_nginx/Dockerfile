@@ -29,8 +29,14 @@ RUN apk update && apk add --no-cache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install gd \
     && docker-php-ext-install sockets bcmath intl mysqli pdo pdo_mysql zip opcache \
-#    && pecl install redis \
-#    && docker-php-ext-enable redis \
+    # 安装 Redis 扩展的依赖
+    && apk add --no-cache hiredis-dev \
+    # 下载、解压、编译并安装Redis扩展
+    && curl -L -o redis.tar.gz https://github.com/phpredis/phpredis/archive/2.2.8.tar.gz \
+    && tar xfz redis.tar.gz \
+    && rm -r redis.tar.gz \
+    && mv phpredis-2.2.8 /usr/src/php/ext/redis \
+    && docker-php-ext-install redis \
     # 清理不再需要的包和缓存
     && apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev autoconf gcc make musl-dev pcre-dev php5-pear php5-dev \
     && rm -rf /var/cache/apk/* \
