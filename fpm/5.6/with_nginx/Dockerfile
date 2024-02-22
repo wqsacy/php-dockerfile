@@ -2,7 +2,8 @@
 FROM php:5.6-fpm-alpine3.8
 
 # 安装 PHP 扩展、Nginx、Supervisor 及其依赖
-RUN apk update && apk add --no-cache \
+RUN sed -i -e 's/v[0-9.]*\/community/v3.8\/community/' /etc/apk/repositories && \
+    apk update && apk add --no-cache \
     freetype \
     libpng \
     libjpeg-turbo \
