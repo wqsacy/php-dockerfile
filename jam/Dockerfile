@@ -1,5 +1,5 @@
 # 使用 PHP 7.4.33 FPM 作为基础镜像
-FROM php:7.4.33-fpm
+FROM php:7.4.33-fpm-buster
 
 # 复制 swoole_orm 和 ycdatabase 源码
 COPY expansion/swoole_orm /usr/src/swoole_orm
