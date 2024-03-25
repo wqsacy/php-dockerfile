@@ -29,7 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-enable opcache \
-    && pecl install redis swoole-4.8.12 yac-2.3.1 yaf-3.3.5 \
+    && pecl install redis yac-2.3.1 yaf-3.3.5 \
+    && pecl install -D 'enable-sockets="no" enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes" enable-swoole-json="no" enable-swoole-curl="yes" enable-cares="yes"' swoole-4.8.12 \
     && docker-php-ext-enable redis swoole yac yaf \
     && cd /usr/src/swoole_orm && \
         phpize && \
