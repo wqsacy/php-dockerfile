@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-install -j$(nproc) bcmath intl gd mysqli pdo_mysql opcache fileinfo \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-enable opcache \
+    && docker-php-ext-enable opcache openssl \
     && pecl install swoole-4.8.12 --enable-openssl --enable-swoole-curl \
     && pecl install redis yac-2.3.1 yaf-3.3.5 \
     && docker-php-ext-enable redis swoole yac yaf \
