@@ -3,6 +3,9 @@ FROM php:8.1-fpm-alpine3.16
 
 # 安装 PHP 扩展、Nginx、Supervisor 及其依赖
 RUN apk update && apk add --no-cache \
+    openssl-dev \
+    krb5-dev \
+    oniguruma-dev \
     freetype \
     libpng \
     libjpeg-turbo \
