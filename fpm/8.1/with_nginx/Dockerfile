@@ -25,9 +25,11 @@ RUN apk update && apk add --no-cache \
     php8-dev \
     nginx \
     supervisor \
+    imap-dev \
     # 配置和安装 PHP 扩展
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install gd \
+    && docker-php-ext-configure imap --with-kerberos --with-imap-ssl; \
     && docker-php-ext-install -j "$(nproc)" imap \
     && docker-php-ext-install sockets bcmath intl mysqli pdo pdo_mysql zip opcache pcntl \
     && pecl install redis \
