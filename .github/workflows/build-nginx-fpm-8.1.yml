@@ -57,8 +57,8 @@ jobs:
           context: ./fpm/8.1/with_nginx/
           file: ./fpm/8.1/with_nginx/Dockerfile
           # 所需要的体系结构，可以在 Available platforms 步骤中获取所有的可用架构
-#          platforms: linux/amd64,linux/arm64/v8
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64/v8
+#          platforms: linux/amd64
           # 镜像推送时间
           push: ${{ github.event_name != 'pull_request' }}
           # 给清单打上多个标签
