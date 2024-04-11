@@ -28,7 +28,7 @@ RUN apk update && apk add --no-cache \
     # 配置和安装 PHP 扩展
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install gd \
-    && docker-php-ext-install sockets bcmath intl mysqli pdo pdo_mysql zip opcache \
+    && docker-php-ext-install sockets bcmath intl mysqli pdo pdo_mysql zip opcache pcntl imap \
     && pecl install redis \
     && docker-php-ext-enable redis \
     # 清理不再需要的包和缓存
