@@ -8,8 +8,12 @@ ENV GO111MODULE=on \
     GOARCH=amd64
 
 # Download and install frps and fp-multiuser
-RUN go install github.com/fatedier/frp/cmd/frps@latest && \
-    go install github.com/sakshyam393/frp-multiuser@latest
+RUN git clone https://github.com/fatedier/frp.git && \
+    cd frp && \
+    go build -o /go/bin/frps ./cmd/frps && \
+    git clone https://github.com/gofrp/fp-multiuser.git && \
+    cd frp-multiuser && \
+    go build -o /go/bin/frp-multiuser
 
 # Create a minimal image with the frps binary and the plugin
 FROM alpine:latest
