@@ -1,32 +1,24 @@
-# Use the official Golang image to build the frps binary
-FROM golang:latest AS build
-
-# Set environment variables
-ENV GO111MODULE=on \
-    CGO_ENABLED=0 \
-    GOOS=linux \
-    GOARCH=amd64
-
-# Clone and build frps
-RUN git clone https://github.com/fatedier/frp.git && \
-    cd frp && \
-    go build -o /go/bin/frps ./cmd/frps
-
-# Clone and build a public multi-user plugin (replace with correct public repo)
-RUN git clone https://github.com/gofrp/fp-multiuser.git && \
-    cd fp-multiuser && \
-    cd cmd && \
-    go build -o /go/bin/frp-multiuser
-
-# Create a minimal image with the frps binary and the plugin
+# Use Alpine as the base image
 FROM alpine:latest
 
-# Copy frps binary and fp-multiuser plugin from the build stage
-COPY --from=build /go/bin/frps /usr/local/bin/frps
-COPY --from=build /go/bin/frp-multiuser /usr/local/bin/frp-multiuser
+# Set environment variables
+ENV FRPS_VERSION=0.58.1
+ENV FP_MULTIUSER_VERSION=latest
 
-# Install necessary packages for running sh
-RUN apk add --no-cache bash
+# Install necessary packages
+RUN apk add --no-cache bash curl
+
+# Download and extract frps
+RUN curl -L -o /tmp/frp.tar.gz https://github.com/fatedier/frp/releases/download/v$FRPS_VERSION/frp_$FRPS_VERSION_linux_amd64.tar.gz && \
+    tar -xzf /tmp/frp.tar.gz -C /tmp && \
+    mv /tmp/frp_$FRPS_VERSION_linux_amd64/frps /usr/local/bin/frps && \
+    rm -rf /tmp/frp*
+
+# Download and extract fp-multiuser
+RUN curl -L -o /tmp/fp-multiuser.tar.gz https://github.com/gofrp/fp-multiuser/releases/download/$FP_MULTIUSER_VERSION/fp-multiuser_linux_amd64.tar.gz && \
+    tar -xzf /tmp/fp-multiuser.tar.gz -C /tmp && \
+    mv /tmp/fp-multiuser /usr/local/bin/fp-multiuser && \
+    rm -rf /tmp/fp-multiuser*
 
 # Create directories for configuration files and tokens
 RUN mkdir -p /etc/frp
@@ -39,4 +31,4 @@ COPY conf/frps.ini /etc/frp/frps.ini
 COPY conf/tokens.ini /etc/frp/tokens.ini
 
 # Command to run frps and fp-multiuser
-CMD ["sh", "-c", "frps -c /etc/frp/frps.ini & sleep 2 && frp-multiuser -token_file /etc/frp/tokens.ini"]
+CMD ["sh", "-c", "frps -c /etc/frp/frps.ini & sleep 2 && fp-multiuser -token_file /etc/frp/tokens/tokens.ini"]
