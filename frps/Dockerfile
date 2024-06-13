@@ -36,7 +36,7 @@ EXPOSE 7000 80 7200
 
 # Copy frps configuration file and token file (if provided)
 COPY conf/frps.ini /etc/frp/frps.ini
-COPY conf/tokens.ini/tokens.ini /etc/frp/tokens.ini
+COPY conf/tokens.ini /etc/frp/tokens.ini
 
 # Command to run frps and fp-multiuser
 CMD ["sh", "-c", "frps -c /etc/frp/frps.ini & sleep 2 && frp-multiuser -token_file /etc/frp/tokens.ini"]
