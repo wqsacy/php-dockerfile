@@ -7,11 +7,13 @@ ENV GO111MODULE=on \
     GOOS=linux \
     GOARCH=amd64
 
-# Download and install frps and fp-multiuser
+# Clone and build frps
 RUN git clone https://github.com/fatedier/frp.git && \
     cd frp && \
-    go build -o /go/bin/frps ./cmd/frps && \
-    git clone https://github.com/gofrp/fp-multiuser.git && \
+    go build -o /go/bin/frps ./cmd/frps
+
+# Clone and build fp-multiuser
+RUN git clone https://github.com/sakshyam393/frp-multiuser.git && \
     cd frp-multiuser && \
     go build -o /go/bin/frp-multiuser
 
@@ -22,15 +24,18 @@ FROM alpine:latest
 COPY --from=build /go/bin/frps /usr/local/bin/frps
 COPY --from=build /go/bin/frp-multiuser /usr/local/bin/frp-multiuser
 
-# Create directories for configuration files and tokens.ini
-RUN mkdir -p /etc/frp /etc/frp/tokens.ini
+# Install necessary packages for running sh
+RUN apk add --no-cache bash
+
+# Create directories for configuration files and tokens
+RUN mkdir -p /etc/frp /etc/frp/tokens
 
 # Expose the necessary ports
 EXPOSE 7000 80 7200
 
 # Copy frps configuration file and token file (if provided)
 COPY conf/frps.ini /etc/frp/frps.ini
-COPY conf/tokens.ini /etc/frp/tokens/tokens.ini
+COPY conf/tokens /etc/frp/tokens/tokens.txt
 
 # Command to run frps and fp-multiuser
 CMD ["sh", "-c", "frps -c /etc/frp/frps.ini & sleep 2 && frp-multiuser -token_file /etc/frp/tokens/tokens.txt"]
