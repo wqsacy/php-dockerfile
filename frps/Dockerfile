@@ -3,22 +3,20 @@ FROM alpine:latest
 
 # Set environment variables
 ENV FRPS_VERSION=0.58.1
-ENV FP_MULTIUSER_VERSION=0.2.1
+ENV FP_MULTIUSER_VERSION=0.0.2
 
 # Install necessary packages
 RUN apk add --no-cache bash curl
 
 # Download and extract frps
-RUN curl -L -o /tmp/frp.tar.gz https://github.com/fatedier/frp/releases/download/v0.58.1/frp_0.58.1_linux_amd64.tar.gz && \
+RUN curl -L -o /tmp/frp.tar.gz https://github.com/fatedier/frp/releases/download/v$FRPS_VERSION/frp_${FRPS_VERSION}_linux_amd64.tar.gz && \
     tar -xzf /tmp/frp.tar.gz -C /tmp && \
-    mv /tmp/frp_0.58.1_linux_amd64/frps /usr/local/bin/frps && \
+    mv /tmp/frp_${FRPS_VERSION}_linux_amd64/frps /usr/local/bin/frps && \
     rm -rf /tmp/frp*
 
-# Download and extract fp-multiuser
-RUN curl -L -o /tmp/fp-multiuser.tar.gz https://github.com/sakshyam393/fp-multiuser/releases/download/v0.2.1/fp-multiuser_0.2.1_linux_amd64.tar.gz && \
-    tar -xzf /tmp/fp-multiuser.tar.gz -C /tmp && \
-    mv /tmp/fp-multiuser /usr/local/bin/fp-multiuser && \
-    rm -rf /tmp/fp-multiuser*
+# Download and set up fp-multiuser
+RUN curl -L -o /usr/local/bin/fp-multiuser https://github.com/gofrp/fp-multiuser/releases/download/v$FP_MULTIUSER_VERSION/fp-multiuser-linux-amd64 && \
+    chmod +x /usr/local/bin/fp-multiuser
 
 # Create directories for configuration files and tokens
 RUN mkdir -p /etc/frp /etc/frp/tokens
