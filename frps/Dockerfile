@@ -29,4 +29,4 @@ COPY conf/frps.ini /etc/frp/frps.ini
 COPY conf/tokens.ini /etc/frp/tokens.ini
 
 # Command to run frps and fp-multiuser
-CMD ["sh", "-c", "frps -c /etc/frp/frps.ini & sleep 2 && fp-multiuser -token_file /etc/frp/tokens.ini"]
+CMD ["sh", "-c", "frps -c /etc/frp/frps.ini & sleep 2 && fp-multiuser -f /etc/frp/tokens.ini"]
