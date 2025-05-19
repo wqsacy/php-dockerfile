@@ -54,4 +54,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           # 给清单打上多个标签
           tags: |
-            wqsacy/front-end-nginx:latest
+            wqsacy/front-end-nginx:no-cache
