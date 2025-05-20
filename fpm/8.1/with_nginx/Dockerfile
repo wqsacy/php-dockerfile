@@ -59,4 +59,4 @@ WORKDIR /var/www/html
 EXPOSE 8080
 
 # 设置启动命令，启动php-fpm 和 nginx
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf", "&&", "chmod", "-Rf", "777", "/var/www/html/storage/*"]
