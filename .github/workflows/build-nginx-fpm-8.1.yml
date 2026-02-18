@@ -1,12 +1,9 @@
-# This is a basic workflow to help you get started with Actions
-name: buildnginx-fpm-8.1
-# Controls when the action will run.
+name: build-nginx-fpm-8.1
+
 on:
   push:
     tags:
       - 'nginx-php-fpm-81*'
-  # Allows you to run this workflow manually from the Actio  ns tab
-  # 可以手动触发
   workflow_dispatch:
     inputs:
       logLevel:
@@ -20,47 +17,38 @@ jobs:
   buildx:
     runs-on: ubuntu-latest
     steps:
+      # 1. 源码检出 (Update to v4)
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Get current date
-        id: date
-        run: echo "name=today::$(date +'%Y-%m-%d_%H-%M')" >> $GITHUB_OUTPUT
-
+      # 2. 环境准备：QEMU 模拟跨架构构建 (Update to v3)
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v3
 
+      # 3. 环境准备：Docker Buildx 核心组件 (Update to v3)
       - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
 
-      - name: Available platforms
-        run: echo ${{ steps.buildx.outputs.platforms }}
-
+      # 4. 身份认证：登录 DockerHub (Update to v3)
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.workflow }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-${{ github.workflow }}
-
+      # 5. 执行构建与推送 (Update to v5)
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./fpm/8.1/with_nginx/
           file: ./fpm/8.1/with_nginx/Dockerfile
-          # 所需要的体系结构，可以在 Available platforms 步骤中获取所有的可用架构
-          platforms: linux/amd64,linux/arm64/v8
-#          platforms: linux/amd64
-          # 镜像推送时间
+          # 明确指定目标架构
+          platforms: linux/amd64,linux/arm64
+          # 非 PR 场景下执行推送
           push: ${{ github.event_name != 'pull_request' }}
-          # 给清单打上多个标签
+          # 标签管理 (建议增加版本标签)
           tags: |
             wqsacy/php81-fpm-nginx:latest
+          # 启用原生 GitHub Actions 缓存加速构建 (比 actions/cache 更高效)
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
